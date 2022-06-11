@@ -121,7 +121,7 @@ char Enigma::encrypt_letter(char letter)
 	_letter = rotors[2].get_letter_r_to_l(_letter);
 
 	// middle rotor mapping
-	_letter = (_letter + uint8_t(rotors[1].get_curr_pos() - rotors[2].get_curr_pos())) % alphabet_cardinality;
+	_letter = (_letter + mathabs(rotors[1].get_curr_pos() - rotors[2].get_curr_pos())) % alphabet_cardinality;
 	_letter = rotors[1].get_letter_r_to_l(_letter);
 
 	// left rotor mapping
