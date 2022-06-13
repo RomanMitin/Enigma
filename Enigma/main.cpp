@@ -12,10 +12,9 @@ int main()
 {
 	Enigma enigma(rotors[2], rotors[1], rotors[0], reflectors[0]);
 	
-	std::cout << enigma.set_positions_and_encrypt_letter('A', 'C', 'U', 'Q') << ' ';
+	std::cout << enigma.get_enigma_state() << '\n';
 
-	std::cout << enigma.set_positions_and_encrypt_letter('W', 'C', 'U', 'Q');
-
+	std::cout << enigma.set_positions_and_encrypt_text("AKWZTUNS", 'A', 'J', 'F') << '\n';
 
 	return 0;
 }

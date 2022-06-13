@@ -13,11 +13,11 @@ std::array<Rotor, number_of_rotors> get_rotors_from_file(const std::string& file
 		for (char i = 0; i < alphabet_cardinality; i++)
 		{
 			input_file >> c;
-			mapping_array[i] = c - 'A';
+			mapping_array[i] = c - First_letter_of_alphabet;
 			input_file.ignore();
 		}
 		input_file >> c;
-		uint8_t pos_to_kick1 = c - 'A';
+		uint8_t pos_to_kick1 = c - First_letter_of_alphabet;
 		//input_file >> c;
 		if (false)
 		{
@@ -52,8 +52,8 @@ std::array<Reflector, number_of_reflectors> get_reflectors_from_file(const std::
 			input_file >> c1;
 			input_file >> c2;
 
-			c1 -= 'A';
-			c2 -= 'A';
+			c1 -= First_letter_of_alphabet;
+			c2 -= First_letter_of_alphabet;
 
 			mapping_array[c1] = c2;
 			mapping_array[c2] = c1;

@@ -11,6 +11,8 @@ uint8_t mathabs(int c)
 Enigma::Enigma(const Rotor& first_rotor, const Rotor& second_rotor, const Rotor& third_rotor, const Reflector& reflector)
 	:enigma_state(), rotors({ first_rotor,second_rotor,third_rotor }), reflector(reflector)
 {
+	enigma_state |= no_first_rotor;
+
 	Rotor default_rotor = Rotor();
 	Reflector default_reflector = Reflector();
 
@@ -92,7 +94,7 @@ void Enigma::set_rotors_pos(uint8_t pos1, uint8_t pos2, uint8_t pos3)
 
 void Enigma::set_rotors_pos(char pos1, char pos2, char pos3)
 {
-	set_rotors_pos(uint8_t(pos1 - 'A'), uint8_t(pos2 - 'A'), uint8_t(pos3 - 'A'));
+	set_rotors_pos(uint8_t(pos1 - First_letter_of_alphabet), uint8_t(pos2 - First_letter_of_alphabet), uint8_t(pos3 - First_letter_of_alphabet));
 }
 
 void Enigma::set_rotors_pos(Rotors_pos pos)
@@ -110,7 +112,7 @@ char Enigma::encrypt_letter(char letter)
 	if (!check_letter_correctness(letter))
 		throw std::string("Wrong input letter in enigma");
 
-	uint8_t _letter = letter - 'A';
+	uint8_t _letter = letter - First_letter_of_alphabet;
 
 	if (rotors[2].next_pos())
 		if (rotors[1].next_pos())
@@ -146,12 +148,12 @@ char Enigma::encrypt_letter(char letter)
 
 	_letter = mathabs(_letter - rotors[2].get_curr_pos()) % alphabet_cardinality;
 
-	return _letter + 'A';
+	return _letter + First_letter_of_alphabet;
 }
 
 char Enigma::set_positions_and_encrypt_letter(char letter, char pos1, char pos2, char pos3)
 {
-	return set_positions_and_encrypt_letter(letter, uint8_t(pos1 - 'A'), uint8_t(pos2 - 'A'), uint8_t(pos3 - 'A'));
+	return set_positions_and_encrypt_letter(letter, uint8_t(pos1 - First_letter_of_alphabet), uint8_t(pos2 - First_letter_of_alphabet), uint8_t(pos3 - First_letter_of_alphabet));
 }
 
 std::string Enigma::encrypt_text(const std::string& text)
@@ -187,28 +189,35 @@ std::string Enigma::set_positions_and_encrypt_text(const std::string& text, uint
 	return encrypt_text(text);
 }
 
-std::string Enigma::get_enigma_state_string()
+std::string Enigma::set_positions_and_encrypt_text(const std::string& text, char pos1, char pos2, char pos3)
+{
+	return set_positions_and_encrypt_text(text, uint8_t(pos1 - First_letter_of_alphabet), uint8_t(pos2 - First_letter_of_alphabet), uint8_t(pos3 - First_letter_of_alphabet));
+}
+
+std::string Enigma::get_enigma_state()
 {
 	std::string result;
 
-	if (enigma_state & no_reflector)
-		result += "No_reflector\n";
+	if (!(enigma_state & no_reflector))
+		result += "No reflector\n";
 
-	if (enigma_state & no_first_rotor)
+	if (!(enigma_state & no_first_rotor))
 		result += "No first rotor\n";
 
-	if (enigma_state & no_second_rotor)
+	if (!(enigma_state & no_second_rotor))
 		result += "No second rotor\n";
 
-	if (enigma_state & no_third_rotor)
+	if (!(enigma_state & no_third_rotor))
 		result += "No third rotor\n";
 
+	if (result.empty())
+		result += "Enigma is ready to encrypt letters\n";
 	return result;
 }
 
 bool Enigma::check_letter_correctness(const char letter)
 {
-	return letter >= 'A' && letter <= 'Z';
+	return letter >= First_letter_of_alphabet && letter <= First_letter_of_alphabet + alphabet_cardinality;
 }
 
 bool Enigma::check_text_correctness(const std::string& text)

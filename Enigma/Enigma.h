@@ -63,7 +63,7 @@ public:
 	std::string decrypt_text(const std::string& text);*/
 
 	//std::array<Enigma_states, static_cast<size_t>(Enigma_states_base::max_states_for_enigma)> get_enigma_state();
-	std::string get_enigma_state_string();
+	std::string get_enigma_state();
 
 	~Enigma() = default;
 

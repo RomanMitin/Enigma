@@ -19,7 +19,7 @@ public:
 
 	bool operator==(const Rotor& sec);
 
-	void set_curr_pos(char pos) { curr_pos = pos - 'A'; }
+	void set_curr_pos(char pos) { curr_pos = pos - First_letter_of_alphabet; }
 	void set_curr_pos(uint8_t pos) { curr_pos = pos; }
 	uint8_t get_curr_pos() { return curr_pos; }
 

@@ -3,6 +3,7 @@
 #include <stdint.h>
 
 constexpr uint8_t alphabet_cardinality = 26;
+constexpr char First_letter_of_alphabet = 'A';
 
 using alphabet_mapping = std::array<uint8_t, alphabet_cardinality>;
 
