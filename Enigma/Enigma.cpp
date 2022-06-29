@@ -158,14 +158,28 @@ char Enigma::set_positions_and_encrypt_letter(char letter, char pos1, char pos2,
 
 std::string Enigma::encrypt_text(const std::string& text)
 {
-	if (!check_text_correctness(text))
-		throw std::string("Wrong input text in enigma");
+	/*if (!check_text_correctness(text))
+		throw std::string("Wrong input text in enigma");*/
 
 	std::string result;
-	result.reserve(text.capacity());
+	result.reserve(text.size());
 	for (const char letter : text)
 	{
-		result.push_back(encrypt_letter(letter));
+		if (letter < 'A' || (letter > 'Z' && letter < 'a') || letter > 'z')
+		{
+			result.push_back(letter);
+		}
+		else
+		{
+			if (letter >= 'a' && letter <= 'z')
+			{
+				result.push_back(encrypt_letter(letter - 32) + 32);
+			}
+			else
+			{
+				result.push_back(encrypt_letter(letter));
+			}
+		}
 	}
 
 	return result;
@@ -220,13 +234,13 @@ bool Enigma::check_letter_correctness(const char letter)
 	return letter >= First_letter_of_alphabet && letter <= First_letter_of_alphabet + alphabet_cardinality;
 }
 
-bool Enigma::check_text_correctness(const std::string& text)
-{
-	for (const char letter : text)
-		if (!check_letter_correctness(letter))
-			return false;
-	return true;
-}
+//bool Enigma::check_text_correctness(const std::string& text)
+//{
+//	for (const char letter : text)
+//		if (!check_letter_correctness(letter))
+//			return false;
+//	return true;
+//}
 
 
 
